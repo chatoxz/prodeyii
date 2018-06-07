@@ -1,0 +1,8 @@
+assets/*
+!assets/.gitignore
+_protected/runtime/*
+!protected/runtime/.gitignore
+_protected/data/*.db
+themes/classic/views/
+.svn/*
+_protected/vendor/*
