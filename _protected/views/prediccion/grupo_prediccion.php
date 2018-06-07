@@ -31,7 +31,6 @@ $this->registerJs($search);
             $id_partido = $prediccion->id_partido;
             $local = Pais::findOne(['id' => Partido::findOne(['id' => $id_partido])->id_local]);
             $visitante = Pais::findOne(['id' => Partido::findOne(['id' => $id_partido])->id_visitante]); ?>
-            <?php $numberOptions =  [ NumberFormatter::MIN_INTEGER_DIGITS => 1,NumberFormatter::MIN_INTEGER_DIGITS => 1, ]?>
             <?= $form->field($prediccion, "[$index]goles_local")
                 ->textInput(['type' => 'number','style' => 'width: 35px;vertical-align: center', 'readonly' => $jugado])
                 ->label($local->nombre,['class'=>'label-class-float-left']); ?>

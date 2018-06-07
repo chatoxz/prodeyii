@@ -65,7 +65,11 @@ use yii\widgets\Pjax;
                 <th></th>
                 <th class="relleno"></th>
                 <th>Grupo</th><th class="relleno"></th>
-                <th><?php echo $p->grupo ?></th><th class="relleno"></th><th></th><th></th>
+                <th><?php echo $p->grupo ?></th>
+                <th class="relleno"></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
             <tr style="text-align: center">
                 <th >Equipos</th>
