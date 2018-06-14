@@ -10,7 +10,7 @@ use yii\captcha\Captcha;
 $this->title = Yii::t('app', 'Contact');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-contact">
+<div class="site-contact  white_opacity  alert">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

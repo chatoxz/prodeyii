@@ -18,7 +18,7 @@ class Prediccion extends BasePrediccion
         return array_replace_recursive(parent::rules(),
 	    [
             [['id_user', 'id_partido'], 'required'],
-            [['id_user', 'id_partido', 'goles_local', 'goles_visitante', 'resultado'], 'integer']
+            [['id_user', 'id_partido', 'id_instancia', 'goles_local', 'goles_visitante', 'resultado'], 'integer']
         ]);
     }
 	

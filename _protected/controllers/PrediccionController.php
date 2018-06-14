@@ -160,7 +160,7 @@ class PrediccionController extends Controller
                 //Load and validate the multiple models
                 if (Model::loadMultiple($predicciones, Yii::$app->request->post()) &&  Model::validateMultiple($predicciones)) {
                     foreach ($predicciones as $prediccion_form) {
-                        $prediccion = Prediccion::findOne(['id_user' => $prediccion_form->id_user, 'id_partido' => $prediccion_form->id_partido]);
+                        $prediccion = Prediccion::findOne(['id_user' => $prediccion_form->id_user, 'id_partido' => $prediccion_form->id_partido, 'id_instancia' => $id_instancia]);
                         $prediccion->id_instancia = $id_instancia;
                         $prediccion->goles_local = $prediccion_form->goles_local;
                         $prediccion->goles_visitante = $prediccion_form->goles_visitante;
@@ -175,11 +175,9 @@ class PrediccionController extends Controller
                             $prediccion_guardada = 1;
                         }
                         if ( $p->fecha == DATE("Y-m-d") ){
-                            if(DATE('h') >= 15 )
-                                $hora_local = DATE('h')-12+9 .":".DATE('i');
-                            else
-                                $hora_local = DATE('h')+9 .":".DATE('i');
-                            if ($p->hora >= $hora_local ){
+                            //$hora_local = DATE('h');
+                            $hora_local = DATE('H') - 3;
+                            if ($p->hora > $hora_local ){
                                 $prediccion->save(false);
                                 $prediccion_guardada = 1;
                             }

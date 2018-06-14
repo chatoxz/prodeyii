@@ -87,15 +87,24 @@ $config = [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@app/mail',
-            //'useFileTransport' => false,
+            //'useFileTransport' => false, //set this property to false to send mails to real email addresses
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',
                 'username' => 'emailsmandar',
-                'password' => 'zxchatozx',
+                //'username' => 'carrerasssebastian',
+                'password' => '17KakarotO17',
+                //'password' => '17chato84',
                 //'port' => '25',
                 'port' => '587',
                 'encryption' => 'tls',
+                'streamOptions'=>[
+                    'ssl'=>[
+                        'verify_peer'=>false,
+                        'verify_peer_name'=>false,
+                        'allow_self_signed'=>true
+                    ]
+                ]
             ],
         ],
         'log' => [

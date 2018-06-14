@@ -11,7 +11,7 @@ $this->title = Yii::t('app', 'Login');
 ?>
 <div class="site-login">
 
-    <div class="col-md-5 well bs-component white_opacity">
+    <div class="col-md-5 well bs-component  white_opacity_not_animation alert">
         <h2><?= Html::encode($this->title) ?></h2>
 
         <p><?= Yii::t('app', 'Please fill out the following fields to login:') ?></p>

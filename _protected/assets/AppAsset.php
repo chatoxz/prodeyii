@@ -29,7 +29,7 @@ class AppAsset extends AssetBundle
 
     public $js = [
         'js/main.js',
-        'js/chat.js',
+        //'js/chat.js',
     ];
 
     public $depends = [

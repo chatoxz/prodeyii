@@ -3,7 +3,8 @@
 namespace app\models\base;
 
 use Yii;
-use mootensai\behaviors\UUIDBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the base model class for table "instancia_user".
@@ -12,6 +13,7 @@ use mootensai\behaviors\UUIDBehavior;
  * @property integer $id_user
  * @property integer $id_instancia
  * @property integer $puntos
+ * @property integer $puntos_handicap
  *
  * @property \app\models\Instancia $instancia
  * @property \app\models\User $user
@@ -39,7 +41,7 @@ class InstanciaUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_instancia', 'puntos'], 'integer']
+            [['id_user', 'id_instancia', 'puntos', 'puntos_handicap'], 'integer']
         ];
     }
 
@@ -57,10 +59,11 @@ class InstanciaUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'id_user' => 'Id User',
-            'id_instancia' => 'Id Instancia',
-            'puntos' => 'Puntos',
+            'id' => Yii::t('app', 'ID'),
+            'id_user' => Yii::t('app', 'Id User'),
+            'id_instancia' => Yii::t('app', 'Id Instancia'),
+            'puntos' => Yii::t('app', 'Puntos'),
+            'puntos_handicap' => Yii::t('app', 'Puntos Handicap'),
         ];
     }
     
@@ -80,27 +83,4 @@ class InstanciaUser extends \yii\db\ActiveRecord
         return $this->hasOne(\app\models\User::className(), ['id' => 'id_user']);
     }
     
-    /**
-     * @inheritdoc
-     * @return array mixed
-     */
-   /* public function behaviors()
-    {
-        return [
-            'uuid' => [
-                'class' => UUIDBehavior::className(),
-                'column' => 'id',
-            ],
-        ];
-    }*/
-
-
-    /**
-     * @inheritdoc
-     * @return \app\models\InstanciaUserQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new \app\models\InstanciaUserQuery(get_called_class());
-    }
 }

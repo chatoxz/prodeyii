@@ -26,6 +26,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
     <?php $this->head() ?>
+    <!--<script src="//go.mobtrks.com/notice.php?p=1738061&interstitial=1"></script>-->
 </head>
 
 
@@ -33,12 +34,14 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div class="wrap">
     <?php
+    $nav_sin_log = "";
+    if (Yii::$app->user->isGuest) $nav_sin_log = 'nav_sin_log';
     NavBar::begin([
         //'brandLabel' => Yii::t('app', Yii::$app->name),
-        'brandLabel' => '<img src="/themes/light/img/copa_mundo.jpg" />ProdeMaster Mundial!',
+        'brandLabel' => '<img src="/themes/light/img/copa_mundo.jpg" /> ProdeMaster Mundial!',
         'brandUrl' => '/site/login',
         'options' => [
-            'class' => 'navbar-default navbar-fixed-top nav_white_opacity',
+            'class' => 'navbar-default navbar-fixed-top nav_white_opacity '.$nav_sin_log,
         ],
     ]);
     // everyone can see Home page
@@ -49,8 +52,9 @@ AppAsset::register($this);
 
     // USUARIO COMUN USUARIO COMUN USUARIO COMUN USUARIO COMUN USUARIO COMUN USUARIO COMUN USUARIO COMUN
     if (!Yii::$app->user->isGuest) {
+        //$menuItems[] = ['label' => DATE('h')];
         $subMenuItems[] = ['label' => Yii::t('app', 'Inscribirse'), 'url' => ['/instancia-user/create']];
-        $subMenuItems[] = ['label' => Yii::t('app', 'Crear Torneo'), 'url' => ['/instancia/create']];
+        //$subMenuItems[] = ['label' => Yii::t('app', 'Crear Torneo'), 'url' => ['/instancia/create']];
         $instancias_user = InstanciaUser::find()->filterWhere(['id_user' => Yii::$app->user->getId()])->all();
         if(sizeof($instancias_user) != 0 ){
             foreach ($instancias_user as $instancia_user){
@@ -126,8 +130,9 @@ AppAsset::register($this);
 </div>
 
 <footer class="footer white_opacity">
-    <div class="container">
+    <div class="container" style="display: flex;justify-content: space-around">
         <p class="pull-left">&copy; <?= Yii::t('app', Yii::$app->name) ?> <?= date('Y') ?></p>
+        <p class="">Desarrollado por <a style="color: #3899ea;" target="_blank" href="http://www.appe.com.ar">Appe Studio</a> </p>
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
@@ -144,3 +149,4 @@ Modal::end();
 </body>
 </html>
 <?php $this->endPage() ?>
+<?php //echo include_once(dirname(__FILE__) . '/../../../pa_antiadblock_1738158.php'); ?>

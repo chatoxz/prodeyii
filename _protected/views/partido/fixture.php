@@ -17,7 +17,10 @@ use yii\widgets\Pjax;
         <span class="glyphicon glyphicon-king"> </span> <span class="label_boton_posiciones">Ver Posiciones</span>
     </div>
 </div>
-<br>
+<!-- PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD -->
+<?= $this->render('/partido/publicidad'); ?>
+<!-- PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD -->
+
 <div class="row">
     <h1 class="nombre_torneo alert alert-info col-md-12 col-xs-12" style="width: auto;text-align: center" ><?= "Torneo ".$instancia_torneo->nombre.", ".$torneo->nombre?></h1>
     <?php $i = 1;
@@ -76,12 +79,12 @@ use yii\widgets\Pjax;
                 <th class="relleno"></th>
                 <th >Resultado</th>
                 <th class="relleno"></th>
-                <th >Predicciones</th>
+                <th >Prediccion</th>
                 <th class="relleno"></th>
                 <th >Fecha</th>
                 <th >Hora</th>
                 <th class="relleno">Lugar</th>
-                <th>Puntos</th>
+                <th>Ptos</th>
             </tr>
             </thead>
             <tbody style="border: 2px solid #ddd">
@@ -109,4 +112,8 @@ use yii\widgets\Pjax;
     <?php }
     ++$i;
     } ?>
+
 </div>
+<!-- PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD -->
+<?= $this->render('/partido/publicidad'); ?>
+<!-- PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD -->

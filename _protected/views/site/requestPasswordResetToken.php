@@ -11,9 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-request-password-reset">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col-md-5 well bs-component white_opacity_not_animation alert">
 
-    <div class="col-md-5 well bs-component">
+        <h1><?= Html::encode($this->title) ?></h1>
 
         <p><?= Yii::t('app', 'A link to reset password will be sent to your email.') ?></p>
 

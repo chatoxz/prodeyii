@@ -12,6 +12,15 @@ body {
     margin: 0px 20px;
     height: 40px;
 }
+
+.nav_sin_log .navbar-brand{
+    padding-top: 14px !important;
+    width: 290px;
+}
+.nav_sin_log .navbar-brand img{
+    margin-top: -8px; !important;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;
@@ -198,9 +207,10 @@ div.required label:after {
     opacity: 0.95;
     font-size: 16px;
 }
-.white_opacity{
+.white_opacity, .white_opacity_not_animation{
     background-color: white;
-    opacity: 0.9;
+    opacity: 0.95;
+    overflow-x: scroll;
 }
 .white_opacity:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,1.0),0 6px 20px 0 rgba(0,0,0,1.0);
@@ -214,7 +224,7 @@ div.required label:after {
     align-content: flex-start;
     flex-direction: column;
     padding: 15px;
-    opacity: 0.9;
+    opacity: 0.95;
     background-color: white
 }
 .tabla_grupo tbody tr td, .tabla_grupo thead tr th {
@@ -267,6 +277,9 @@ input[type='number'] {
     .relleno {
         display: none !important;
     }
+    .nombre_torneo{
+        font-size: 32px;
+    }
 }
 @media screen and (max-width: 600px) {
     .tabla_grupo tbody tr td{
@@ -277,4 +290,23 @@ input[type='number'] {
         font-size: 14px !important;
         padding: 0px !important;
     }
+    .nombre_torneo{
+        font-size: 22px;
+    }
+    .super_relleno{
+        display: none !important;
+    }
+}
+
+a.publicidad:visited, a.publicidad:active, a.publicidad:link, a.publicidad:focus,a.publicidad:hover{
+    color: white;
+    text-decoration: none;
+}
+
+.publicidad, .publicidad:hover{
+    text-decoration: none;
+    color: white;
+    width: 100%;
+    height: 100%;
+    display: block
 }

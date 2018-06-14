@@ -155,7 +155,7 @@ class PartidoController extends Controller
     }
 
     /**
-     * Lists Posiciones.
+     * Lists Reglas.
      * @return mixed
      */
     public function actionReglas($id_instancia)
@@ -173,7 +173,9 @@ class PartidoController extends Controller
     public function actionPosiciones($id_instancia)
     {
         $instancia_usuarios = InstanciaUser::find()
+            ->joinWith('user')
             ->filterWhere(['id_instancia' => $id_instancia])
+            ->andFilterWhere(['status' => 10])
             ->orderBy(['puntos'=> SORT_DESC])->all();
         return $this->renderAjax('posiciones', ['instancia_usuarios' => $instancia_usuarios,]);
     }
@@ -352,32 +354,33 @@ class PartidoController extends Controller
         //control para ver si se paso la fecha del partido, si es asi lo pone como jugado = 1.
         $id_torneo = Instancia::findOne(['id' => $id_instancia])->id_torneo;
         $partidos = Partido::find()->where(['id_torneo' => $id_torneo,'jugado' => 0])->all();
+        //var_dump( DATE("Y-m-d H:i") );
+
         foreach ($partidos as $partido){
-            //var_dump($partido->fecha . DATE("Y-m-d"));
             if ( $partido->fecha < DATE("Y-m-d") ){
                 $partido->jugado = 1;
                 $partido->save();
             }else{
                 if( $partido->fecha == DATE("Y-m-d") ){
-                    if(DATE('h') >= 15 )
-                        $hora_local = DATE('h')-12+9 .":".DATE('i');
-                    else
-                        $hora_local = DATE('h')+9 .":".DATE('i');
+                    $hora_local = DATE('H') - 3;
+                    echo $partido->hora." <= ".$hora_local;
                     if ($partido->hora <= $hora_local ){
+                        echo "cierra";
                         $partido->jugado = 1;
                         $partido->save();
                     }
+                    echo "fecha igual, hora menor";
                 }
             }
         }
         $this->calcularPuntos($id_instancia);
-        //$instancias_user = InstanciaUser::find()->filterWhere(['id_user' => Yii::$app->user->getId(), 'id_instancia' => $id_instancia])->one();
-        return $this->redirect(['/partido/fixture', 'id_instancia' => $id_instancia ]);
+        $instancias_user = InstanciaUser::find()->filterWhere(['id_user' => Yii::$app->user->getId(), 'id_instancia' => $id_instancia])->one();
+        //return $this->redirect(['/partido/fixture', 'id_instancia' => $id_instancia ]);
     }
 
     public function calcularPuntos($id_instancia){
         //trae los usuarios inscriptos en el
-        $usuarios = InstanciaUser::find()->where(['id_instancia' => $id_instancia])->all();
+        $usuarios  = InstanciaUser::find()->where(['id_instancia' => $id_instancia])->all();
         $id_torneo = Instancia::findOne(['id' => $id_instancia])->id_torneo;
         foreach ($usuarios as $u) {
             $partidos = Partido::find()->where(['id_torneo' => $id_torneo,'jugado' => 1])->all();
