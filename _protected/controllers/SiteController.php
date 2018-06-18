@@ -137,6 +137,16 @@ class SiteController extends Controller
 //------------------------------------------------------------------------------------------------//
 
     /**
+     * Shows the time of the server
+     *
+     *
+     * @return string|\yii\web\Response
+     */
+    public function actionHora(){
+        return (DATE('H')-3).":".DATE('i');
+    }
+
+    /**
      * Logs in the user if his account is activated,
      * if not, displays appropriate message.
      *

@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="partido-form">
+<div class="partido-form ">
 
     <?php $form = ActiveForm::begin(); ?>
     <div class="">

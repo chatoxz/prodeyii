@@ -159,36 +159,18 @@ class PrediccionController extends Controller
                 }
                 //Load and validate the multiple models
                 if (Model::loadMultiple($predicciones, Yii::$app->request->post()) &&  Model::validateMultiple($predicciones)) {
+                    PartidoController::ControlarFechaHoraPartido($id_instancia);
                     foreach ($predicciones as $prediccion_form) {
                         $prediccion = Prediccion::findOne(['id_user' => $prediccion_form->id_user, 'id_partido' => $prediccion_form->id_partido, 'id_instancia' => $id_instancia]);
-                        $prediccion->id_instancia = $id_instancia;
-                        $prediccion->goles_local = $prediccion_form->goles_local;
-                        $prediccion->goles_visitante = $prediccion_form->goles_visitante;
-                        if ($prediccion->goles_local == $prediccion->goles_visitante) $prediccion->resultado = 1;
-                        if ($prediccion->goles_local > $prediccion->goles_visitante) $prediccion->resultado = 0;
-                        if ($prediccion->goles_local < $prediccion->goles_visitante) $prediccion->resultado = 2;
-
-                        $prediccion_guardada = 0;
                         $p = Partido::find()->where(['id' => $prediccion_form->id_partido])->one();
-                        if ( $p->fecha > DATE("Y-m-d") ){
+                        if($p->jugado == 0){
+                            $prediccion->id_instancia = $id_instancia;
+                            $prediccion->goles_local  = $prediccion_form->goles_local;
+                            $prediccion->goles_visitante = $prediccion_form->goles_visitante;
+                            if ($prediccion->goles_local == $prediccion->goles_visitante) $prediccion->resultado = 1;
+                            if ($prediccion->goles_local > $prediccion->goles_visitante) $prediccion->resultado = 0;
+                            if ($prediccion->goles_local < $prediccion->goles_visitante) $prediccion->resultado = 2;
                             $prediccion->save(false);
-                            $prediccion_guardada = 1;
-                        }
-                        if ( $p->fecha == DATE("Y-m-d") ){
-                            //$hora_local = DATE('h');
-                            $hora_local = DATE('H') - 3;
-                            if ($p->hora > $hora_local ){
-                                $prediccion->save(false);
-                                $prediccion_guardada = 1;
-                            }
-                        }
-                        if(!$prediccion_guardada){
-                            if($p->jugado <> 1){
-                                echo $p->getLocal()->one()->nombre." - ".$p->getVisitante_nombre()." ** Partido cerrado";
-                                $p = Partido::find()->where(['id' => $prediccion_form->id_partido])->one();
-                                $p->jugado = 1;
-                                $p->save();
-                            }
                         }
                     }
                     //return $this->redirect('view');

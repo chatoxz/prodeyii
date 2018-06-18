@@ -13,7 +13,7 @@ use yii\widgets\Pjax;
     <div id="wrap_chat" class="col-md-6 col-sm-12">
         <?= $this->render('/chat/_chat', ['chats' => $chats, 'new_chat' =>  $new_chat, ]); ?>
     </div>
-    <div class="modalButton boton_posiciones " value="<?= $url ?>" title="Posiciones" size="">
+    <div class="modalButton boton_posiciones col-sm-12" value="<?= $url ?>" title="Posiciones" size="">
         <span class="glyphicon glyphicon-king"> </span> <span class="label_boton_posiciones">Ver Posiciones</span>
     </div>
 </div>
@@ -69,6 +69,7 @@ use yii\widgets\Pjax;
                 <th class="relleno"></th>
                 <th>Grupo</th><th class="relleno"></th>
                 <th><?php echo $p->grupo ?></th>
+                <th class="relleno"></th>
                 <th class="relleno"></th>
                 <th></th>
                 <th></th>

@@ -41,7 +41,7 @@ class InstanciaUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_instancia', 'puntos', 'puntos_handicap'], 'integer']
+            [['id_user', 'id_instancia', 'puntos', /*'puntos_handicap'*/], 'integer']
         ];
     }
 

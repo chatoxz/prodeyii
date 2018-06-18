@@ -29,5 +29,5 @@ $(document).on("ready",function () {
         if($("#chat-mensaje").val() == ""){
             $("#id_form_chat").submit();
         }
-    }, 5000);
+    }, 10000);
 });

@@ -30,7 +30,7 @@ AppAsset::register($this);
 </head>
 
 
-<body>
+<body id="id_body">
 <?php $this->beginBody() ?>
 <div class="wrap">
     <?php
@@ -52,7 +52,7 @@ AppAsset::register($this);
 
     // USUARIO COMUN USUARIO COMUN USUARIO COMUN USUARIO COMUN USUARIO COMUN USUARIO COMUN USUARIO COMUN
     if (!Yii::$app->user->isGuest) {
-        //$menuItems[] = ['label' => DATE('h')];
+        $menuItems[] = ['label' => (DATE('H')-3).":".DATE('i'), 'options'=>['class'=>'hora' ]];
         $subMenuItems[] = ['label' => Yii::t('app', 'Inscribirse'), 'url' => ['/instancia-user/create']];
         //$subMenuItems[] = ['label' => Yii::t('app', 'Crear Torneo'), 'url' => ['/instancia/create']];
         $instancias_user = InstanciaUser::find()->filterWhere(['id_user' => Yii::$app->user->getId()])->all();
@@ -82,6 +82,8 @@ AppAsset::register($this);
 
     // ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN
     if (Yii::$app->user->can('admin')){
+        $url = Url::toRoute(['/partido/segunda-fase', 'id_instancia' => 1]);
+        $menuItems[] = ['label' => 'Segunda Fase','url' => $url];
         //calcular puntos
         $instancias = Instancia::find()->all();
         foreach ($instancias as $instancia) {

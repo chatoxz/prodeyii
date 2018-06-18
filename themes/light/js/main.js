@@ -67,8 +67,24 @@ $(document).on("ready",function () {
     });
 
 
-    if(window.location.pathname == "/partido/fixture"){
-        //$(".container").eq(1).addClass("container-fluid").removeClass("container").css("padding-top", "100px");
+
+    setInterval(setHora, 60000);
+})
+$(window).on('load', function() {
+    //fondo segunda fase
+    if(window.location.pathname == "/partido/segunda-fase"){
+        var imagen = document.getElementById("id_body");
+        imagen.style.backgroundImage = "none";
+//        $(".container").eq(0).addClass("container-fluid").removeClass("container");
+        //$("body").css('background-image','none');
     }
-    //$("h1").addClass("alert alert-success");
 });
+
+function setHora() {
+    $.ajax({
+        url: '/site/hora',
+        success: function(data) {
+            $('.hora a').html(data);
+        },
+    });
+}

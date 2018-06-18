@@ -155,6 +155,28 @@ class PartidoController extends Controller
     }
 
     /**
+     * Segunda Fase.
+     * @return mixed
+     */
+    public function actionSegundaFase($id_instancia)
+    {
+        $instancia = Instancia::find()->where(['id' => $id_instancia])->one();
+        $octavos = Partido::find()->where(['instancia' => 'Octavos', 'id_torneo' => $instancia->id_torneo])->all();
+        $cuartos = Partido::find()->where(['instancia' => 'Cuartos', 'id_torneo' => $instancia->id_torneo])->all();
+        $semi = Partido::find()->where(['instancia' => 'Semifinales', 'id_torneo' => $instancia->id_torneo])->all();
+        $tercer = Partido::find()->where(['instancia' => 'Tercer Puesto', 'id_torneo' => $instancia->id_torneo])->all();
+        $final = Partido::find()->where(['instancia' => 'Final', 'id_torneo' => $instancia->id_torneo])->all();
+        return $this->render('segundaFase', [
+            'octavos' => $octavos,
+            'cuartos' => $cuartos,
+            'semi' => $semi,
+            'tercer' => $tercer,
+            'final' => $final,
+        ]);
+    }
+
+
+    /**
      * Lists Reglas.
      * @return mixed
      */
@@ -198,7 +220,7 @@ class PartidoController extends Controller
                 'content'=>$this->renderAjax('view', [
                     'model' => $this->findModel($id, $id_local, $id_visitante),
                 ]),
-                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                     Html::a('Edit',['update','id, $id_local, $id_visitante'=>$id, $id_local, $id_visitante],['class'=>'btn btn-primary','role'=>'modal-remote'])
             ];
         }else{
@@ -239,8 +261,8 @@ class PartidoController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model, 'torneos' => $torneos, 'paises' => $paises
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                        Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                        Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
 
                 ];
             }else if($model->load($request->post())){
@@ -250,7 +272,7 @@ class PartidoController extends Controller
                         'forceReload'=>'#crud-datatable-pjax',
                         'title'=> "Crear nuevo Partido",
                         'content'=>'<span class="text-success">Create Partido success</span>',
-                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                        'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
 
                     ];
@@ -261,8 +283,8 @@ class PartidoController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model, 'torneos' => $torneos, 'paises' => $paises
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                        Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                        Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
 
                 ];
             }
@@ -310,30 +332,25 @@ class PartidoController extends Controller
                 return [
                     'title'=> "Update Partido #".$id, $id_local, $id_visitante,
                     'content'=>$this->renderAjax('update', [
-                        'model' => $model, 'torneos' => $torneos, 'paises' => $paises
+                        'model' => $model, 'torneos' => $torneos, 'paises' => $paises, 'guardado' => false
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                        Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                        Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];
             }else if($model->load($request->post()) && $model->save()){
-                //$this->calcularPuntos();
-                //$puntos = var_dump(User::find()->all());
-                //var_dump($puntos);
-
-                $searchModel = new PartidoSearch();
-                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-                return $this->render('index', [
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
-                ]);
+                return [
+                    'title'=> "Update Partido #".$id, $id_local, $id_visitante,
+                    'content'=>'Guardado',
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+                ];
             }else{
                 return [
                     'title'=> "Update Partido #".$id, $id_local, $id_visitante,
                     'content'=>$this->renderAjax('update', [
-                        'model' => $model, 'torneos' => $torneos, 'paises' => $paises
+                        'model' => $model, 'torneos' => $torneos, 'paises' => $paises, 'guardado' => false
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                        Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                        Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];
             }
         }else{
@@ -344,7 +361,7 @@ class PartidoController extends Controller
                 return $this->redirect(['view', 'id' => $model->id, 'id_local' => $model->id_local, 'id_visitante' => $model->id_visitante]);
             } else {
                 return $this->render('update', [
-                    'model' => $model, 'torneos' => $torneos, 'paises' => $paises
+                    'model' => $model, 'torneos' => $torneos, 'paises' => $paises, 'guardado' => false
                 ]);
             }
         }
@@ -352,10 +369,15 @@ class PartidoController extends Controller
 
     public function actionPuntuar($id_instancia){
         //control para ver si se paso la fecha del partido, si es asi lo pone como jugado = 1.
+        $this->ControlarFechaHoraPartido($id_instancia);
+        //calcula los puntos de la cpa(instancia)
+        $this->calcularPuntos($id_instancia);
+        return $this->redirect(['/partido/fixture', 'id_instancia' => $id_instancia ]);
+    }
+
+    public static function ControlarFechaHoraPartido($id_instancia){
         $id_torneo = Instancia::findOne(['id' => $id_instancia])->id_torneo;
         $partidos = Partido::find()->where(['id_torneo' => $id_torneo,'jugado' => 0])->all();
-        //var_dump( DATE("Y-m-d H:i") );
-
         foreach ($partidos as $partido){
             if ( $partido->fecha < DATE("Y-m-d") ){
                 $partido->jugado = 1;
@@ -363,23 +385,20 @@ class PartidoController extends Controller
             }else{
                 if( $partido->fecha == DATE("Y-m-d") ){
                     $hora_local = DATE('H') - 3;
-                    echo $partido->hora." <= ".$hora_local;
+                    //echo $partido->hora." <= ".$hora_local.":".DATE('i');
                     if ($partido->hora <= $hora_local ){
-                        echo "cierra";
                         $partido->jugado = 1;
-                        $partido->save();
+                        $partido->save(false);
+                        //echo "cerrado";
                     }
-                    echo "fecha igual, hora menor";
+                    // echo "fecha igual, hora menor";
                 }
             }
         }
-        $this->calcularPuntos($id_instancia);
-        $instancias_user = InstanciaUser::find()->filterWhere(['id_user' => Yii::$app->user->getId(), 'id_instancia' => $id_instancia])->one();
-        //return $this->redirect(['/partido/fixture', 'id_instancia' => $id_instancia ]);
     }
 
     public function calcularPuntos($id_instancia){
-        //trae los usuarios inscriptos en el
+        //trae los usuarios inscriptos en la instancia
         $usuarios  = InstanciaUser::find()->where(['id_instancia' => $id_instancia])->all();
         $id_torneo = Instancia::findOne(['id' => $id_instancia])->id_torneo;
         foreach ($usuarios as $u) {

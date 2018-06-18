@@ -7,7 +7,9 @@ use yii\helpers\Html;
 /* @var $model app\models\Partido */
 
 ?>
-<div class="partido-create white_opacity col-md-12 alert">
+<div class="partido-create">
+    <?php $this->registerJs('$("#modal-content").addClass("white_opacity col-md-12 alert"); '); ?>
+
     <?= $this->render('_form', [
         'model' => $model, 'torneos' => $torneos, 'paises' => $paises
     ]) ?>

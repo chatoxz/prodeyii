@@ -282,6 +282,9 @@ input[type='number'] {
     }
 }
 @media screen and (max-width: 600px) {
+    .row{
+        margin: 0px -30px !important;
+    }
     .tabla_grupo tbody tr td{
         font-size: 12px !important;
         padding: 0px !important;
@@ -292,6 +295,7 @@ input[type='number'] {
     }
     .nombre_torneo{
         font-size: 22px;
+        /*margin: 30px 0px;*/
     }
     .super_relleno{
         display: none !important;

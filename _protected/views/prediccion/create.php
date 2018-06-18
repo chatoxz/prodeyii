@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Prediccion */
 
 ?>
-<div class="prediccion-create white_opacity col-md-12 alert">
+<div class="prediccion-create">
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
