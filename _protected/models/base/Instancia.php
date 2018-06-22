@@ -3,19 +3,22 @@
 namespace app\models\base;
 
 use Yii;
-use mootensai\behaviors\UUIDBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the base model class for table "instancia".
  *
  * @property integer $id
  * @property integer $id_torneo
+ * @property integer $id_user
  * @property string $nombre
  * @property integer $max_participantes
+ * @property string $reglas
  *
  * @property \app\models\Chat[] $chats
+ * @property \app\models\User $user
  * @property \app\models\Torneo $torneo
- * @property \app\models\InstanciaRegla[] $instanciaReglas
  * @property \app\models\InstanciaUser[] $instanciaUsers
  * @property \app\models\Prediccion[] $prediccions
  */
@@ -32,8 +35,8 @@ class Instancia extends \yii\db\ActiveRecord
     {
         return [
             'chats',
+            'user',
             'torneo',
-            'instanciaReglas',
             'instanciaUsers',
             'prediccions'
         ];
@@ -45,7 +48,8 @@ class Instancia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_torneo', 'max_participantes'], 'integer'],
+            [['id_torneo', 'id_user', 'max_participantes'], 'integer'],
+            [['reglas'], 'string'],
             [['nombre'], 'string', 'max' => 255]
         ];
     }
@@ -64,10 +68,12 @@ class Instancia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'id_torneo' => 'Id Torneo',
-            'nombre' => 'Nombre',
-            'max_participantes' => 'Max Participantes',
+            'id' => Yii::t('app', 'ID'),
+            'id_torneo' => Yii::t('app', 'Id Torneo'),
+            'id_user' => Yii::t('app', 'Id User'),
+            'nombre' => Yii::t('app', 'Nombre'),
+            'max_participantes' => Yii::t('app', 'Max Participantes'),
+            'reglas' => Yii::t('app', 'Reglas'),
         ];
     }
     
@@ -82,17 +88,17 @@ class Instancia extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTorneo()
+    public function getUser()
     {
-        return $this->hasOne(\app\models\Torneo::className(), ['id' => 'id_torneo']);
+        return $this->hasOne(\app\models\User::className(), ['id' => 'id_user']);
     }
         
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInstanciaReglas()
+    public function getTorneo()
     {
-        return $this->hasMany(\app\models\InstanciaRegla::className(), ['id_instancia' => 'id']);
+        return $this->hasOne(\app\models\Torneo::className(), ['id' => 'id_torneo']);
     }
         
     /**
@@ -118,9 +124,16 @@ class Instancia extends \yii\db\ActiveRecord
    /* public function behaviors()
     {
         return [
-            'uuid' => [
-                'class' => UUIDBehavior::className(),
-                'column' => 'id',
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => false,
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => false,
+                'updatedByAttribute' => 'updated_by',
             ],
         ];
     }*/

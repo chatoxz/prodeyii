@@ -13,7 +13,7 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $id_user
  * @property integer $id_instancia
  * @property integer $puntos
- * @property integer $puntos_handicap
+ * @property integer $handicap
  *
  * @property \app\models\Instancia $instancia
  * @property \app\models\User $user
@@ -41,7 +41,7 @@ class InstanciaUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_instancia', 'puntos', /*'puntos_handicap'*/], 'integer']
+            [['id_user', 'id_instancia', 'puntos', 'handicap'], 'integer']
         ];
     }
 
@@ -63,7 +63,7 @@ class InstanciaUser extends \yii\db\ActiveRecord
             'id_user' => Yii::t('app', 'Id User'),
             'id_instancia' => Yii::t('app', 'Id Instancia'),
             'puntos' => Yii::t('app', 'Puntos'),
-            'puntos_handicap' => Yii::t('app', 'Puntos Handicap'),
+            'handicap' => Yii::t('app', 'Puntos Handicap'),
         ];
     }
     

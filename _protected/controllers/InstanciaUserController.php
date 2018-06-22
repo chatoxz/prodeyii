@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\User;
 use Yii;
 use app\models\InstanciaUser;
 use app\models\InstanciaUserSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,19 +22,19 @@ class InstanciaUserController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    //'delete' => ['post'],
                 ],
             ],
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update', 'delete', 'save-as-new'],
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'save-as-new','usuarios'],
                 'denyCallback' => function ($rule, $action) {
                     return $action->controller->redirect(['/site/login']);
                 },
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'update'],
+                        'actions' => ['create', 'update','usuarios'],
                         'roles' => ['@']
                     ],
                     [
@@ -64,6 +66,38 @@ class InstanciaUserController extends Controller
     }
 
     /**
+     * Lists all InstanciaUser models.
+     * @return mixed
+     */
+    public function actionUsuarios($id_instancia)
+    {
+        $params = Yii::$app->request->queryParams;
+        $searchModel = new InstanciaUserSearch();
+        $searchModel->id_instancia = $id_instancia;
+        $query = InstanciaUser::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => [
+                'attributes' => ['id', 'id_user'],
+            ],
+        ]);
+        $searchModel->load($params);
+        $query->joinWith('user');
+        $query->andFilterWhere([
+            'id' => $searchModel->id,
+            'id_user' => $searchModel->id_user,
+            'id_instancia' => $searchModel->id_instancia,
+            'user.status' => User::STATUS_ACTIVE, //solo usuarios activos
+        ])->orderBy(['puntos' => SORT_DESC]);
+
+        return $this->renderAjax('usuarios', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'id_instancia' => $id_instancia,
+        ]);
+    }
+
+    /**
      * Displays a single InstanciaUser model.
      * @param integer $id
      * @return mixed
@@ -87,6 +121,12 @@ class InstanciaUserController extends Controller
         if ($model->loadAll(Yii::$app->request->post()) ) {
             //controla si ya esta inscripto en el torneo
             if ( sizeof(InstanciaUser::findOne(['id_user' => $model->id_user, 'id_instancia' => $model->id_instancia])) == 0 ){
+                $ultima_posicion_instancia = InstanciaUser::find()->joinWith('user')
+                    ->filterWhere(['id_instancia' => $model->id_instancia])
+                    ->andFilterWhere(['status' => User::STATUS_ACTIVE])
+                    ->orderBy(['puntos'=> SORT_ASC])->one();
+                $model->handicap = $ultima_posicion_instancia->puntos;
+                $model->puntos = $ultima_posicion_instancia->puntos;
                 if($model->saveAll()){
                     return $this->redirect(['/partido/fixture', 'id_instancia' => $model->id_instancia ]);
                 }
@@ -131,9 +171,10 @@ class InstanciaUserController extends Controller
      */
     public function actionDelete($id)
     {
+        $instancia_user = InstanciaUser::findOne(['id' => $id]);
         $this->findModel($id)->deleteWithRelated();
-
-        return $this->redirect(['index']);
+        echo "Usuario eliminado";
+        //return $this->redirect(['usuarios','id_instancia' => $instancia_user->id_instancia]);
     }
 
     /**

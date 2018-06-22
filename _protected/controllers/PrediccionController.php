@@ -102,7 +102,7 @@ class PrediccionController extends Controller
     }
 
     //DEVUELVE LA PREDICCION PERO ANTES CHEQUEA SI EXISTE SINO LA CREA
-    public function checkprediccion($id_patido, $id_user, $id_instancia){
+    public function checkprediccion($id_patido, $id_user, $id_instancia, $jugado){
         $prediccion = Prediccion::find()
             ->where(['id_partido' => $id_patido, 'id_user' => $id_user, 'id_instancia' => $id_instancia])
             ->orderBy(['id_partido' => SORT_ASC])->one();
@@ -114,7 +114,10 @@ class PrediccionController extends Controller
             $prediccion->id_user = $id_user;
             $prediccion->goles_visitante = 0;
             $prediccion->goles_local = 0;
-            $prediccion->resultado = 1;
+            if($jugado == 1)
+                $prediccion->resultado = 3;
+            else
+                $prediccion->resultado = 1;
             $prediccion->id_instancia = $id_instancia;
             $prediccion->save();
         }
@@ -134,25 +137,25 @@ class PrediccionController extends Controller
         $instancia = Instancia::findOne(['id' => $id_instancia]);
         $partidos_grupo = Partido::find()
             ->where([ 'grupo' => $grupo, 'id_torneo' => $instancia->id_torneo ])
-            ->orderBy(['grupo'=>SORT_ASC, 'fecha'=> SORT_ASC])->all();
+            ->orderBy(['grupo'=>SORT_ASC, 'fecha'=> SORT_ASC, 'hora' => SORT_ASC ])->all();
+
         //var_dump($partidos_grupo);
         if($request->isAjax){
             if($request->isGet) {
                 $predicciones = array();
                 //$predicciones = Prediccion::find()->indexBy('id')->all();
                 foreach ($partidos_grupo as $p) {
-                    $prediccion = $this->checkprediccion($p->id, $id_user, $id_instancia);
-                    $predicciones[] = $prediccion;
+                    $prediccion = $this->checkprediccion($p->id, $id_user, $id_instancia, $p->jugado);
                     //var_dump($prediccion);
+                    $predicciones[] = $prediccion;
                 }
                 return $this->renderAjax('grupo_prediccion', [
                     'predicciones' => $predicciones,
                 ]);
             }else{
                 $count = count(Yii::$app->request->post('Prediccion', []));
-//Send at least one model to the form
+                //Send at least one model to the form
                 $predicciones = [new Prediccion()];
-
                 //Create an array of the products submitted
                 for($i = 1; $i < $count; $i++) {
                     $predicciones[] = new Prediccion();
@@ -234,15 +237,20 @@ class PrediccionController extends Controller
                         Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
 
                 ];
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Prediccion",
-                    'content'=>'<span class="text-success">Create Prediccion success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                        Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+            }else if($model->load($request->post())){
+                if ($model->goles_local == $model->goles_visitante) $model->resultado = 1;
+                if ($model->goles_local > $model->goles_visitante) $model->resultado = 0;
+                if ($model->goles_local < $model->goles_visitante) $model->resultado = 2;
+                if ($model->save()){
+                    return [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "Create new Prediccion",
+                        'content'=>'<span class="text-success">Create Prediccion success</span>',
+                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
 
-                ];
+                    ];
+                }
             }else{
                 return [
                     'title'=> "Create new Prediccion",
@@ -297,16 +305,21 @@ class PrediccionController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                         Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Prediccion #".$id, $id_user, $id_partido,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                        Html::a('Edit',['update','id, $id_user, $id_partido'=>$id, $id_user, $id_partido],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];
+            }else if($model->load($request->post())){
+                if ($model->goles_local == $model->goles_visitante) $model->resultado = 1;
+                if ($model->goles_local > $model->goles_visitante) $model->resultado = 0;
+                if ($model->goles_local < $model->goles_visitante) $model->resultado = 2;
+                if ($model->save()) {
+                    return [
+                        'forceReload' => '#crud-datatable-pjax',
+                        'title' => "Prediccion #" . $id, $id_user, $id_partido,
+                        'content' => $this->renderAjax('view', [
+                            'model' => $model,
+                        ]),
+                        'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                            Html::a('Edit', ['update', 'id, $id_user, $id_partido' => $id, $id_user, $id_partido], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                    ];
+                }
             }else{
                 return [
                     'title'=> "Update Prediccion #".$id, $id_user, $id_partido,

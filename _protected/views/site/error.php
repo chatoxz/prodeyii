@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = $name;
 ?>
-<div class="site-error white_opacity col-md-12 alert">
+<div class="site-error just_white col-md-12 alert">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -143,7 +143,10 @@ class SiteController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionHora(){
-        return (DATE('H')-3).":".DATE('i');
+        if (DATE('H') > 3 )
+            return (DATE('H')-3).":".DATE('i');
+        else
+            return (DATE('H')+ 21).":".DATE('i');
     }
 
     /**

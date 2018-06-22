@@ -10,9 +10,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Instancias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="instancia-update white_opacity col-md-12 alert">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="instancia-update">
 
     <?= $this->render('_form', [
         'model' => $model,

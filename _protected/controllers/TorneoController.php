@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Torneo;
 use app\models\TorneoSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

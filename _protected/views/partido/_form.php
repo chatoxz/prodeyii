@@ -10,7 +10,6 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="partido-form ">
-
     <?php $form = ActiveForm::begin(); ?>
     <div class="">
         <?= $form->field($model, 'id')->textInput() ?>

@@ -53,7 +53,6 @@ use app\models\InstanciaUser;
             // $query->where('0=1');
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'id' => $this->id,
             'id_user' => $this->id_user,

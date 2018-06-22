@@ -17,7 +17,7 @@ class InstanciaUser extends BaseInstanciaUser
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['id_user', 'id_instancia'], 'integer']
+            [['id_user', 'id_instancia','handicap'], 'integer']
         ]);
     }
     public function getUser_nombre() {

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Torneo */
 
 ?>
-<div class="torneo-create white_opacity col-md-12 alert">
+<div class="torneo-create">
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

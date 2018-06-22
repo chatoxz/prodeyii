@@ -47,7 +47,6 @@ class PartidoSearch extends Partido
     public function search($params)
     {
         $query = Partido::find();
-        $torneo = '2018';
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -96,7 +95,7 @@ class PartidoSearch extends Partido
         $query->andFilterWhere(['like', 'hora', $this->hora])
             ->andFilterWhere(['like', 'lugar', $this->lugar])
             ->andFilterWhere(['like', 'instancia', $this->instancia])
-            ->andFilterWhere(['like', 'torneo.nombre', $torneo])
+            ->andFilterWhere(['like', 'torneo.nombre', $this->torneo_nombre])
             ->andFilterWhere(['like', 'l.nombre', $this->local_nombre])
             ->andFilterWhere(['like', 'v.nombre', $this->visitante_nombre])
             ->andFilterWhere(['like', 'grupo', $this->grupo]);

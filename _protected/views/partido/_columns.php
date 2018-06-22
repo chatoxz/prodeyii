@@ -12,6 +12,10 @@ return [
      ],*/
     [
         'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'id',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'local_nombre',
     ],
     [

@@ -12,13 +12,14 @@ use app\models\Instancia;
  */
  class InstanciaSearch extends Instancia
 {
+    public $torneo_nombre;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'id_torneo', 'max_participantes'], 'integer'],
+            [['id', 'id_torneo', 'max_participantes', 'id_user','torneo_nombre'], 'integer'],
             [['nombre'], 'safe'],
         ];
     }
@@ -46,6 +47,11 @@ use app\models\Instancia;
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        $dataProvider->setSort([
+            'attributes'=>[
+                'id', 'id_torneo', 'max_participantes', 'id_user','torneo_nombre','nombre'
+            ]
+        ]);
 
         $this->load($params);
 
@@ -55,9 +61,13 @@ use app\models\Instancia;
             return $dataProvider;
         }
 
+        //if (Yii::$app->user->getId() != 1 && Yii::$app->user->getId() != 2 && Yii::$app->user->getId() != 3 )
+        $this->id_user = Yii::$app->user->getId();
+
         $query->andFilterWhere([
             'id' => $this->id,
             'id_torneo' => $this->id_torneo,
+            'id_user' => $this->id_user,
             'max_participantes' => $this->max_participantes,
         ]);
 

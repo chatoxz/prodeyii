@@ -99,7 +99,9 @@ AppAsset::register($this);
         $subMenuAdmin[] = ['label' => Yii::t('app', 'Prediccion'), 'url' => ['/prediccion/index']];
         $subMenuAdmin[] = ['label' => Yii::t('app', 'Partido'), 'url' => ['/partido/index']];
         $subMenuAdmin[] = ['label' => Yii::t('app', 'Pais'), 'url' => ['/pais/index']];
-        $subMenuAdmin[] = ['label' => Yii::t('app', 'Torneo'), 'url' => ['/torneo/index']];
+        $subMenuAdmin[] = ['label' => Yii::t('app', 'Copas'), 'url' => ['/torneo/index']];
+        $url = Url::toRoute(['/instancia/admin_torneo', 'id_user' => Yii::$app->user->id]);
+        $subMenuAdmin[] = ['label' => Yii::t('app', 'Mis Torneos'), 'url' => $url];
         //$subMenuAdmin[] = ['label' => Yii::t('app', 'Sms'), 'url' => ['/site/sms']];
         $menuItems[] =[
             'class' => '',

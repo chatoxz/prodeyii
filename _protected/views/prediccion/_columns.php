@@ -16,6 +16,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label'=>'Usuario',
         'attribute'=>'username',
     ],
     [
@@ -24,10 +25,12 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label'=>'local',
         'attribute'=>'local_nombre',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label'=>'vis',
         'attribute'=>'visitante_nombre',
     ],
     [
@@ -44,7 +47,16 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label'=>'Inst.',
         'attribute'=>'id_instancia',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'updated_at',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'created_at',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

@@ -3,7 +3,7 @@
 namespace app\models\base;
 
 use Yii;
-use mootensai\behaviors\UUIDBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the base model class for table "prediccion".
@@ -15,6 +15,8 @@ use mootensai\behaviors\UUIDBehavior;
  * @property integer $goles_local
  * @property integer $goles_visitante
  * @property integer $resultado
+ * @property string $updated_at
+ * @property string $created_at
  *
  * @property \app\models\Instancia $instancia
  * @property \app\models\Partido $partido
@@ -45,7 +47,8 @@ class Prediccion extends \yii\db\ActiveRecord
     {
         return [
             [['id_user', 'id_partido'], 'required'],
-            [['id_user', 'id_partido', 'id_instancia', 'goles_local', 'goles_visitante', 'resultado'], 'integer']
+            [['id_user', 'id_partido', 'id_instancia', 'goles_local', 'goles_visitante', 'resultado'], 'integer'],
+            [['updated_at', 'created_at'], 'safe']
         ];
     }
 
@@ -70,6 +73,8 @@ class Prediccion extends \yii\db\ActiveRecord
             'goles_local' => 'Goles Local',
             'goles_visitante' => 'Goles Visitante',
             'resultado' => 'Resultado',
+            'updated_at' => 'Actualizado en ',
+            'created_at' => 'Creado en',
         ];
     }
     
@@ -101,15 +106,17 @@ class Prediccion extends \yii\db\ActiveRecord
      * @inheritdoc
      * @return array mixed
      */
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
-            'uuid' => [
-                'class' => UUIDBehavior::className(),
-                'column' => 'id',
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new \yii\db\Expression('NOW()'),
             ],
         ];
-    }*/
+    }
 
 
     /**

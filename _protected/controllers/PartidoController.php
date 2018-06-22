@@ -104,7 +104,7 @@ class PartidoController extends Controller
                 ->Where('partido.grupo is not null')
                 ->andWhere('id_torneo ='. $instancia->id_torneo)
                 ->andFilterWhere(['like', 'partido.instancia', 'Grupo'])
-                ->orderBy(['grupo'=>SORT_ASC, 'fecha'=> SORT_ASC])->all();
+                ->orderBy(['grupo'=>SORT_ASC, 'fecha'=> SORT_ASC, 'hora' => SORT_ASC ])->all();
             //var_dump($query->createCommand()->getRawSql());
             //var_dump($provider->getModels());
 
@@ -161,21 +161,46 @@ class PartidoController extends Controller
     public function actionSegundaFase($id_instancia)
     {
         $instancia = Instancia::find()->where(['id' => $id_instancia])->one();
-        $octavos = Partido::find()->where(['instancia' => 'Octavos', 'id_torneo' => $instancia->id_torneo])->all();
-        $cuartos = Partido::find()->where(['instancia' => 'Cuartos', 'id_torneo' => $instancia->id_torneo])->all();
-        $semi = Partido::find()->where(['instancia' => 'Semifinales', 'id_torneo' => $instancia->id_torneo])->all();
+        $id_instancia_user = InstanciaUser::find()->filterWhere(['id_instancia' => $id_instancia, 'id_user' => Yii::$app->user->getId()])->one();
+        $predicciones_user = Prediccion::find()->joinWith('partido')
+            ->andFilterWhere(['id_instancia' => $id_instancia, 'id_user' => Yii::$app->user->id, 'instancia' => 'Semis']);
+        var_dump($predicciones_user->all());
+
+        //$predicciones = $predicciones_user;
+        //$octavos = $predicciones_user->andFilterWhere(['like', 'partido.instancia', 'Octavos'])->asArray();
+            //->andFilterWhere(['id_torneo' => $instancia->id_torneo])->all();
+        //var_dump($octavos);
+       /* $cuartos = $predicciones_user->andFilterWhere(['p.instancia' => 'Cuartos','id_torneo' => $instancia->id_torneo])->all();
+        $semi    = $predicciones_user->andFilterWhere(['p.instancia' => 'Semis','id_torneo' => $instancia->id_torneo])->all();
+        $tercer  = $predicciones_user->andFilterWhere(['p.instancia' => 'Tercer Puesto','id_torneo' => $instancia->id_torneo])->all();
+        $final   = $predicciones_user->andFilterWhere(['p.instancia' => 'Final','id_torneo' => $instancia->id_torneo])->all();*/
+        /*$cuartos = Partido::find()->where(['instancia' => 'Cuartos', 'id_torneo' => $instancia->id_torneo])->all();
+        $semi = Partido::find()->where(['instancia' => 'Semis', 'id_torneo' => $instancia->id_torneo])->all();
         $tercer = Partido::find()->where(['instancia' => 'Tercer Puesto', 'id_torneo' => $instancia->id_torneo])->all();
-        $final = Partido::find()->where(['instancia' => 'Final', 'id_torneo' => $instancia->id_torneo])->all();
-        return $this->render('segundaFase', [
+        $final = Partido::find()->where(['instancia' => 'Final', 'id_torneo' => $instancia->id_torneo])->all();*/
+        /*return $this->render('segundaFase', [
             'octavos' => $octavos,
             'cuartos' => $cuartos,
             'semi' => $semi,
             'tercer' => $tercer,
             'final' => $final,
-        ]);
+            'id_instancia_user' => $id_instancia_user,
+        ]);*/
     }
 
 
+    /**
+     * Partido segunda fase.
+     * @return mixed
+     */
+    public function actionPartidoSegundaFase($partido,$id_instancia_user)
+    {
+        $prediccion = Prediccion::findOne(['id_instancia' => $id_instancia_user->id_instancia, 'id_user'=> $id_instancia_user->id_user,'id_partido' => $id_partido]);
+        return $this->renderAjax('_partidoSegFase', [
+            'prediccion' => $prediccion,
+            'partido' => $partido,
+        ]);
+    }
     /**
      * Lists Reglas.
      * @return mixed
@@ -403,7 +428,7 @@ class PartidoController extends Controller
         $id_torneo = Instancia::findOne(['id' => $id_instancia])->id_torneo;
         foreach ($usuarios as $u) {
             $partidos = Partido::find()->where(['id_torneo' => $id_torneo,'jugado' => 1])->all();
-            $puntos = 0;
+            $puntos = $u->handicap + 0;
             foreach ($partidos as $partido) {
                 //prediccion del usuario de este partido
                 $prediccion = Prediccion::find()->where(['id_user' => $u->id_user, 'id_partido' => $partido->id,
@@ -432,7 +457,7 @@ class PartidoController extends Controller
                     }
                 }
             }
-            $u->puntos = $puntos;
+            $u->puntos = $puntos + $u->handicap;
             $u->save();
         }
     }

@@ -33,4 +33,10 @@ class Partido extends BasePartido
     public function getVisitante_nombre() {
         return $this->visitante->nombre;
     }
+    public function getLocal_nombre_abreviatura() {
+        return $this->local->abreviatura;
+    }
+    public function getVisitante_abreviatura() {
+        return $this->visitante->abreviatura;
+    }
 }

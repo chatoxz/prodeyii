@@ -11,7 +11,7 @@ $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Instancia User', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="instancia-user-view white_opacity col-md-12 alert">
+<div class="instancia-user-view just_white col-md-12 alert">
 
     <div class="row">
         <div class="col-sm-8">

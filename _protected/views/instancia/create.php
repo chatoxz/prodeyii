@@ -10,9 +10,7 @@ $this->title = 'Create Instancia';
 $this->params['breadcrumbs'][] = ['label' => 'Instancias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="instancia-create white_opacity col-md-12 alert">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="instancia-create">
 
     <?= $this->render('_form', [
         'model' => $model,

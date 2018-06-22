@@ -207,6 +207,10 @@ div.required label:after {
     opacity: 0.95;
     font-size: 16px;
 }
+.just_white{
+    background-color: white;
+    /*overflow-x: scroll;*/
+}
 .white_opacity, .white_opacity_not_animation{
     background-color: white;
     opacity: 0.95;
