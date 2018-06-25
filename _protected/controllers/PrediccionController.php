@@ -186,6 +186,21 @@ class PrediccionController extends Controller
         }
     }
 
+    public function actionSeg_fase_pred($id_partido, $id_prediccion = 0){
+        $request = Yii::$app->request;
+        if($id_prediccion != 0){
+            $prediccion = Prediccion::find()->where(['id' => $id_prediccion])->one();
+            if($request->isAjax){
+                if($request->isGet) {
+                    return $this->renderAjax('seg_fase_pred', [
+                        'prediccion' => $prediccion,
+                    ]);
+                }
+        }
+        }
+
+    }
+
     public function actionPrediccion($id_patido, $id_user){
         $request = Yii::$app->request;
         $model = prediccion($id_patido, $id_user, $request);

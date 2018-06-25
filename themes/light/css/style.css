@@ -318,3 +318,21 @@ a.publicidad:visited, a.publicidad:active, a.publicidad:link, a.publicidad:focus
     height: 100%;
     display: block
 }
+.part_seg_fase{
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+.part_alineacion_der{
+    border-right: 1px solid grey;
+}
+
+.part_alineacion_izq{
+    border-left: 1px solid grey;
+}
+.part_alineacion_centro{
+    border: none !important;
+}
+.wrap_part_seg_fase{
+    display: flex;justify-content: center;flex-direction: column;text-align: center;
+}

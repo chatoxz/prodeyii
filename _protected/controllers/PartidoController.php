@@ -161,31 +161,47 @@ class PartidoController extends Controller
     public function actionSegundaFase($id_instancia)
     {
         $instancia = Instancia::find()->where(['id' => $id_instancia])->one();
-        $id_instancia_user = InstanciaUser::find()->filterWhere(['id_instancia' => $id_instancia, 'id_user' => Yii::$app->user->getId()])->one();
-        $predicciones_user = Prediccion::find()->joinWith('partido')
-            ->andFilterWhere(['id_instancia' => $id_instancia, 'id_user' => Yii::$app->user->id, 'instancia' => 'Semis']);
-        var_dump($predicciones_user->all());
+        //$id_instancia_user = InstanciaUser::find()->filterWhere(['id_instancia' => $id_instancia, 'id_user' => Yii::$app->user->getId()])->one();
 
-        //$predicciones = $predicciones_user;
-        //$octavos = $predicciones_user->andFilterWhere(['like', 'partido.instancia', 'Octavos'])->asArray();
-            //->andFilterWhere(['id_torneo' => $instancia->id_torneo])->all();
-        //var_dump($octavos);
-       /* $cuartos = $predicciones_user->andFilterWhere(['p.instancia' => 'Cuartos','id_torneo' => $instancia->id_torneo])->all();
-        $semi    = $predicciones_user->andFilterWhere(['p.instancia' => 'Semis','id_torneo' => $instancia->id_torneo])->all();
-        $tercer  = $predicciones_user->andFilterWhere(['p.instancia' => 'Tercer Puesto','id_torneo' => $instancia->id_torneo])->all();
-        $final   = $predicciones_user->andFilterWhere(['p.instancia' => 'Final','id_torneo' => $instancia->id_torneo])->all();*/
-        /*$cuartos = Partido::find()->where(['instancia' => 'Cuartos', 'id_torneo' => $instancia->id_torneo])->all();
-        $semi = Partido::find()->where(['instancia' => 'Semis', 'id_torneo' => $instancia->id_torneo])->all();
-        $tercer = Partido::find()->where(['instancia' => 'Tercer Puesto', 'id_torneo' => $instancia->id_torneo])->all();
-        $final = Partido::find()->where(['instancia' => 'Final', 'id_torneo' => $instancia->id_torneo])->all();*/
-        /*return $this->render('segundaFase', [
-            'octavos' => $octavos,
-            'cuartos' => $cuartos,
-            'semi' => $semi,
-            'tercer' => $tercer,
+        $oct = Partido::find()
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
+            ->filterWhere(['id_torneo' => $instancia->id_torneo])
+            ->andFilterWhere(['instancia' => 'Octavos'])->all();
+        $cuart = Partido::find()
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
+            ->filterWhere(['id_torneo' => $instancia->id_torneo])
+            ->andFilterWhere(['instancia' => 'Cuartos'])->all();
+        $semis = Partido::find()
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
+            ->filterWhere(['id_torneo' => $instancia->id_torneo])
+            ->andFilterWhere(['instancia' => 'Semis'])->all();
+        $final = Partido::find()
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
+            ->filterWhere(['id_torneo' => $instancia->id_torneo])
+            ->andFilterWhere(['instancia' => 'Final'])->all();
+        $tercer = Partido::find()
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
+            ->filterWhere(['id_torneo' => $instancia->id_torneo])
+            ->andFilterWhere(['instancia' => 'Tercer'])->all();
+        //var_dump($semis);
+        return $this->render('segundaFase', [
+            'oct' => $oct,
+            'cuart' => $cuart,
+            'semis' => $semis,
             'final' => $final,
-            'id_instancia_user' => $id_instancia_user,
-        ]);*/
+            'tercer' => $tercer,
+            'id_instancia' => $id_instancia,
+        ]);
     }
 
 
@@ -193,14 +209,14 @@ class PartidoController extends Controller
      * Partido segunda fase.
      * @return mixed
      */
-    public function actionPartidoSegundaFase($partido,$id_instancia_user)
+    /*public function actionPartidoSegundaFase($partido,$id_instancia_user)
     {
         $prediccion = Prediccion::findOne(['id_instancia' => $id_instancia_user->id_instancia, 'id_user'=> $id_instancia_user->id_user,'id_partido' => $id_partido]);
         return $this->renderAjax('_partidoSegFase', [
             'prediccion' => $prediccion,
             'partido' => $partido,
         ]);
-    }
+    }*/
     /**
      * Lists Reglas.
      * @return mixed
