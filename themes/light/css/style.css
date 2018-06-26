@@ -1,3 +1,8 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url(/themes/light/fonts/Dusha_-_FIFA_World_Cup_2018.ttf);
+}
+
 html,
 body {
     text-rendering: optimizeLegibility !important;
@@ -9,7 +14,7 @@ body {
 }
 .navbar-brand img{
     float: left;
-    margin: 0px 20px;
+    margin: -5px 20px;
     height: 40px;
 }
 
@@ -197,6 +202,7 @@ div.required label:after {
     white-space: nowrap;
     font-size: 18px;
     width: 20%;
+    font-family: myFirstFont;
 }
 
 .boton_posiciones:hover{
@@ -206,15 +212,18 @@ div.required label:after {
     background-color: white;
     opacity: 0.95;
     font-size: 16px;
+    font-family: myFirstFont;
 }
 .just_white{
     background-color: white;
     /*overflow-x: scroll;*/
+    font-family: myFirstFont !important;
 }
 .white_opacity, .white_opacity_not_animation{
     background-color: white;
     opacity: 0.95;
     overflow-x: scroll;
+    font-family: myFirstFont !important;
 }
 .white_opacity:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,1.0),0 6px 20px 0 rgba(0,0,0,1.0);
@@ -304,8 +313,17 @@ input[type='number'] {
     .super_relleno{
         display: none !important;
     }
+    .wrap_inst_seg_fase{
+        flex-direction: column;
+        justify-content: center;
+    }
 }
-
+@media screen and (max-width: 768px) {
+    .wrap_inst_seg_fase{
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
 a.publicidad:visited, a.publicidad:active, a.publicidad:link, a.publicidad:focus,a.publicidad:hover{
     color: white;
     text-decoration: none;
@@ -318,21 +336,50 @@ a.publicidad:visited, a.publicidad:active, a.publicidad:link, a.publicidad:focus
     height: 100%;
     display: block
 }
-.part_seg_fase{
+
+.wrap_inst_seg_fase{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.wrap_partido_seg_fase{
+    /*background-color: lightgrey;*/
+    padding: 10px !important;
+    cursor: pointer;
+    margin-bottom: 0px !important;
+}
+.equipo_part_seg_fase{
     padding: 5px;
     display: flex;
     justify-content: space-around;
-}
-.part_alineacion_der{
-    border-right: 1px solid grey;
+
 }
 
-.part_alineacion_izq{
-    border-left: 1px solid grey;
+/*@media (max-width: 768px){
+    .seven-cols .col-md-1,
+    .seven-cols .col-sm-1,
+    .seven-cols .col-lg-1  {
+        width: 100%;
+        *width: 100%;
+    }
+}*/
+
+@media (min-width: 992px) {
+    .seven-cols .col-md-1,
+    .seven-cols .col-sm-1,
+    .seven-cols .col-lg-1 {
+        width: 14.285714285714285714285714285714%;
+        *width: 14.285714285714285714285714285714%;
+    }
 }
-.part_alineacion_centro{
-    border: none !important;
-}
-.wrap_part_seg_fase{
-    display: flex;justify-content: center;flex-direction: column;text-align: center;
+
+@media (min-width: 1200px) {
+    .seven-cols .col-md-1,
+    .seven-cols .col-sm-1,
+    .seven-cols .col-lg-1 {
+        width: 14.285714285714285714285714285714%;
+        *width: 14.285714285714285714285714285714%;
+    }
 }

@@ -5,17 +5,53 @@
  * Date: 22/6/2018
  * Time: 17:58
  */
+
+use yii\helpers\Url;
+
+/* @var $model app\models\Partido */
+
 ?>
-<?php $class = $alineacion ? "part_alineacion_der" : "part_alineacion_izq"; ?>
-<?php $class = ($partido->instancia == 'Final' || $partido->instancia == 'Tercer') ? "part_alineacion_centro" : $class; ?>
-<div class="part_seg_fase  <?= $class ?>" style="border-top: 1px solid grey;">
-    <div><?= $partido->local->abreviatura ?></div>
-    <div><?= $partido->goles_local ?></div>
-    <div><?= $partido->prediccion_goles_local ?></div>
-</div>
-<div class="part_seg_fase <?= $class ?>" style="border-bottom: 1px solid grey;">
-    <div><?= $partido->visitante->abreviatura ?></div>
-    <div><?= $partido->goles_visitante ?></div>
-    <div><?= $partido->prediccion_goles_visitante ?></div>
+
+<?php $url = Url::toRoute(['/prediccion/seg_fase_pred', 'id_prediccion' => $partido->prediccion_id,
+    'id_partido' => $partido->id, 'id_instancia' => $id_instancia, 'jugado' => $partido->jugado]);?>
+<?php
+if($partido->jugado == 1){ ?>
+    <?php
+    $puntos = 0;
+    $clase = "alert alert-danger";
+    //Resultado exacto
+    if ($partido->goles_local == $partido->prediccion_goles_local && $partido->goles_visitante == $partido->prediccion_goles_visitante) {
+        $clase = "alert alert-success";
+        $puntos = 3;
+    }else {
+        //resultado empate
+        if ( ($partido->goles_local == $partido->goles_visitante) && $partido->prediccion_resultado == 1){
+            $clase = "alert alert-info";
+            $puntos = 1;
+        }
+        //resultado ganador local
+        if ($partido->goles_local > $partido->goles_visitante && $partido->prediccion_resultado == 0){
+            $clase = "alert alert-info";
+            $puntos = 1;
+        }
+        //resultado ganador visitante
+        if ($partido->goles_local < $partido->goles_visitante && $partido->prediccion_resultado == 2){
+            $clase = "alert alert-info";
+            $puntos = 1;
+        }
+    }
+} else $clase = "alert alert-warning";
+?>
+<div class="modalButton wrap_partido_seg_fase <?= $clase?>"  value="<?= $url ?>" title="Prediccion del partido" size="modal-sm" style="">
+    <div class="equipo_part_seg_fase  " >
+        <div><?= $partido->local->abreviatura ?></div>
+        <div><?= $partido->goles_local; ?></div>
+        <div><?php if ($partido->prediccion_goles_local == '') echo 0; else echo $partido->prediccion_goles_local ?></div>
+    </div>
+    <div class="equipo_part_seg_fase ">
+        <div><?= $partido->visitante->abreviatura ?></div>
+        <div><?= $partido->goles_visitante ?></div>
+        <div><?php if ($partido->prediccion_goles_visitante == '') echo 0; else echo $partido->prediccion_goles_visitante ?></div>
+    </div>
 </div>
 <br><br>

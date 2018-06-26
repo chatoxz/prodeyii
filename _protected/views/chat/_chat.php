@@ -13,7 +13,7 @@ use yii\widgets\Pjax;
 $this->registerJsFile('@themes/js/chat.js',['depends' => [\yii\web\JqueryAsset::className()]]);?>
 
 <div id="outter_chat">
-    <h3 style="margin-top: 5px">Chat Mundialista!</h3>
+    <h3 style="margin-top: 5px;font-family: myFirstFont">Chat Mundialista!</h3>
     <div id="inner_chat" style="overflow-y: scroll; ">
         <?php foreach ($chats as $chat){ ?>
             <div class="mensaje">

@@ -164,32 +164,33 @@ class PartidoController extends Controller
         //$id_instancia_user = InstanciaUser::find()->filterWhere(['id_instancia' => $id_instancia, 'id_user' => Yii::$app->user->getId()])->one();
 
         $oct = Partido::find()
-            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
-                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local', '{{prediccion}}.[[resultado]] AS prediccion_resultado',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.[[id]] AS prediccion_id'])
+            //->select(['partido.*', 'prediccion.goles_local AS prediccion_goles_local', 'prediccion.goles_visitante AS prediccion_goles_visitante', 'prediccion.id as prediccion_id'])
             ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
             ->filterWhere(['id_torneo' => $instancia->id_torneo])
             ->andFilterWhere(['instancia' => 'Octavos'])->all();
         $cuart = Partido::find()
-            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
-                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local', '{{prediccion}}.[[resultado]] AS prediccion_resultado',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.[[id]] AS prediccion_id'])
             ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
             ->filterWhere(['id_torneo' => $instancia->id_torneo])
             ->andFilterWhere(['instancia' => 'Cuartos'])->all();
         $semis = Partido::find()
-            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
-                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local', '{{prediccion}}.[[resultado]] AS prediccion_resultado',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.[[id]] AS prediccion_id'])
             ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
             ->filterWhere(['id_torneo' => $instancia->id_torneo])
             ->andFilterWhere(['instancia' => 'Semis'])->all();
         $final = Partido::find()
-            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
-                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local', '{{prediccion}}.[[resultado]] AS prediccion_resultado',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.[[id]] AS prediccion_id'])
             ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
             ->filterWhere(['id_torneo' => $instancia->id_torneo])
             ->andFilterWhere(['instancia' => 'Final'])->all();
         $tercer = Partido::find()
-            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local',
-                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.id AS prediccion_id '])
+            ->select([ '{{partido}}.*', '{{prediccion}}.goles_local AS prediccion_goles_local', '{{prediccion}}.[[resultado]] AS prediccion_resultado',
+                '{{prediccion}}.goles_visitante AS prediccion_goles_visitante', ' {{prediccion}}.[[id]] AS prediccion_id'])
             ->leftJoin('prediccion','prediccion.id_partido = partido.id and prediccion.id_user = '. Yii::$app->user->getId().' and prediccion.id_instancia = '.$id_instancia )
             ->filterWhere(['id_torneo' => $instancia->id_torneo])
             ->andFilterWhere(['instancia' => 'Tercer'])->all();

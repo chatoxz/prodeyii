@@ -27,6 +27,7 @@ class Partido extends BasePartido
     public $prediccion_goles_local;
     public $prediccion_goles_visitante;
     public $prediccion_id;
+    public $prediccion_resultado;
 
     public function getTorneo_nombre() {
         return $this->torneo->nombre;

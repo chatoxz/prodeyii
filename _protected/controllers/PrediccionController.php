@@ -106,7 +106,6 @@ class PrediccionController extends Controller
         $prediccion = Prediccion::find()
             ->where(['id_partido' => $id_patido, 'id_user' => $id_user, 'id_instancia' => $id_instancia])
             ->orderBy(['id_partido' => SORT_ASC])->one();
-        //var_dump($prediccion);
         if(sizeof($prediccion) == 0){
             $prediccion = new Prediccion();
             $prediccion->id = (Prediccion::find()->orderBy(['id' => SORT_DESC])->one()->id)+1;
@@ -186,45 +185,27 @@ class PrediccionController extends Controller
         }
     }
 
-    public function actionSeg_fase_pred($id_partido, $id_prediccion = 0){
+    public function actionSeg_fase_pred($id_partido, $id_prediccion = 0, $id_instancia, $jugado){
         $request = Yii::$app->request;
-        if($id_prediccion != 0){
-            $prediccion = Prediccion::find()->where(['id' => $id_prediccion])->one();
-            if($request->isAjax){
-                if($request->isGet) {
-                    return $this->renderAjax('seg_fase_pred', [
-                        'prediccion' => $prediccion,
-                    ]);
-                }
-        }
-        }
-
-    }
-
-    public function actionPrediccion($id_patido, $id_user){
-        $request = Yii::$app->request;
-        $model = prediccion($id_patido, $id_user, $request);
-        $partido = Partido::find()
-            ->joinWith('local l')
-            ->joinWith('visitante v')
-            ->where(['partido.id' => $id_patido])->one();
-
         if($request->isAjax){
             if($request->isGet) {
-                return $this->renderAjax('prediccion', [
-                    'model' => $model,
-                    'partido' => $partido,
-                ]);
+                $prediccion = $this->checkprediccion($id_partido, Yii::$app->user->getId(), $id_instancia, $jugado);
+                return $this->renderAjax('seg_fase_pred', [ 'prediccion' => $prediccion, ]);
             }else{
-                if (!$model->load($request->post()) || !$model->save()){
-                    return "Error de validacion";
-                }else
-                    return "Prediccion ralizada";
+                $prediccion = $this->checkprediccion($id_partido, Yii::$app->user->getId(), $id_instancia, $jugado);
+                if($prediccion->load($request->post())){
+                    if ($prediccion->goles_local == $prediccion->goles_visitante) $prediccion->resultado = 1;
+                    if ($prediccion->goles_local  > $prediccion->goles_visitante) $prediccion->resultado = 0;
+                    if ($prediccion->goles_local  < $prediccion->goles_visitante) $prediccion->resultado = 2;
+                    $prediccion->id_instancia = $id_instancia;
+
+                    if ($prediccion->save()){
+                        return 'Prediccion guardada';
+                    }else return 'Error al guardar';
+                }
             }
         }
     }
-
-
 
     /**
      * Creates a new Prediccion model.

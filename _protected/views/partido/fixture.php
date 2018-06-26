@@ -22,7 +22,9 @@ use yii\widgets\Pjax;
 <!-- PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD PUBLICIDAD -->
 
 <div class="row">
-    <h1 class="nombre_torneo alert alert-info col-md-12 col-xs-12" style="width: auto;text-align: center" ><?= "Torneo ".$instancia_torneo->nombre.", ".$torneo->nombre?></h1>
+    <h1 class="nombre_torneo alert alert-info col-md-12 col-xs-12" style="width: auto;text-align: center;font-family: myFirstFont" >
+        <?= "Torneo ".$instancia_torneo->nombre.", ".$torneo->nombre?>
+    </h1>
     <?php $i = 1;
     foreach($partidos as $p){
     $puntos = "";

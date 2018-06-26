@@ -1,10 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: chatoxz
- * Date: 25/6/2018
- * Time: 17:22
- */
+
+use app\models\Pais;
+use app\models\Partido;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+/* @var $model app\models\Prediccion */
 ?>
 
 <?php $form = ActiveForm::begin(['id' => 'id_form']); ?>
@@ -13,10 +14,10 @@
 if ( Partido::find()->where(['id' => $prediccion->id_partido])->one()->jugado == 1 ) $jugado =  true;
 else $jugado = false;  ?>
 <div class="hidden">
-    <?= $form->field($prediccion, "[$index]id")->textInput() ?>
-    <?= $form->field($prediccion, "[$index]id_user")->textInput() ?>
-    <?= $form->field($prediccion, "[$index]id_partido")->textInput() ?>
-    <?= $form->field($prediccion, "[$index]resultado")->textInput() ?>
+    <?= $form->field($prediccion, "id")->textInput() ?>
+    <?= $form->field($prediccion, "id_user")->textInput() ?>
+    <?= $form->field($prediccion, "id_partido")->textInput() ?>
+    <?= $form->field($prediccion, "resultado")->textInput() ?>
 </div>
 <table class="" >
     <tbody>
@@ -25,12 +26,12 @@ else $jugado = false;  ?>
         $id_partido = $prediccion->id_partido;
         $local = Pais::findOne(['id' => Partido::findOne(['id' => $id_partido])->id_local]);
         $visitante = Pais::findOne(['id' => Partido::findOne(['id' => $id_partido])->id_visitante]); ?>
-        <?= $form->field($prediccion, "[$index]goles_local")
+        <?= $form->field($prediccion, "goles_local")
             ->textInput(['type' => 'number','style' => 'width: 35px;vertical-align: center', 'readonly' => $jugado])
             ->label($local->nombre,['class'=>'label-class-float-left']); ?>
     </td>
     <td style="min-height: 60px">
-        <?= $form->field($prediccion, "[$index]goles_visitante")
+        <?= $form->field($prediccion, "goles_visitante")
             ->textInput(['type' => 'number','style' => 'width: 35px;vertical-align: center', 'readonly' => $jugado])
             ->label($visitante->nombre,['class'=>'label-class-float-right']); ?>
     </td>

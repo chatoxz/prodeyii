@@ -93,7 +93,7 @@ $(document).on("ready",function () {
                         $.pjax.reload({container:"#id_gridview"});
 
                     if(window.location.pathname == "/partido/fixture"){ window.location.reload(); }
-                }, 2000);
+                }, 22000);
             }
             else{
                 $(".resultado").html("<span class='glyphicon glyphicon-cog' aria-hidden='true' style='padding-right: 10px'></span>"+response).css({"width":"90  %","text-align":"center"});
@@ -101,9 +101,9 @@ $(document).on("ready",function () {
                     $("#modal").modal("hide");
                     $(".resultado").html("").addClass("hidden");
                     //Si esta seteado el id del gridview lo recarga con el pjax
-                    if ( typeof $("#id_gridview").html() !== "undefined"  ){
-                        $.pjax.reload({container:"#id_gridview"});
-                    }
+                    if ( typeof $("#id_gridview").html() !== "undefined"  ) $.pjax.reload({container:"#id_gridview"});
+                    //recargo la pagina segunda_fase despues de la prediccion
+                    if(window.location.pathname == "/partido/segunda-fase"){ window.location.reload(); }
                 }, 2000);
             }
         }).fail(function (xhr, ajaxOptions, thrownError){
