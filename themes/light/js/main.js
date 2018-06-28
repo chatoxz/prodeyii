@@ -10,6 +10,7 @@ $(document).on("ready",function () {
         if(typeof $(this).attr("size") !== typeof undefined && $(this).attr("size") !== false){
             if($(this).attr("size") == "modal-sm") $(".modal-body").css("padding","20px 0px");
         }
+        //pide confirmacion si esta seteado
         var confirmar = true;
         if(typeof $(this).attr("confirm") !== typeof undefined && $(this).attr("confirm") !== false){
             confirmar = confirm("Esta seguro que borrar el item?");
