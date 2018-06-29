@@ -372,7 +372,7 @@ class PartidoController extends Controller
 
             if($request->isGet){
                 return [
-                    'title'=> "Update Partido #".$id, $id_local, $id_visitante,
+                    'title'=> "Actualizar Partido#".$id, $id_local, $id_visitante,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model, 'torneos' => $torneos, 'paises' => $paises, 'guardado' => false
                     ]),
@@ -381,13 +381,13 @@ class PartidoController extends Controller
                 ];
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'title'=> "Update Partido #".$id, $id_local, $id_visitante,
+                    'title'=> "Actualizar Partido#".$id, $id_local, $id_visitante,
                     'content'=>'Guardado',
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
                 ];
             }else{
                 return [
-                    'title'=> "Update Partido #".$id, $id_local, $id_visitante,
+                    'title'=> "Actualizar Partido#".$id, $id_local, $id_visitante,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model, 'torneos' => $torneos, 'paises' => $paises, 'guardado' => false
                     ]),
@@ -410,11 +410,12 @@ class PartidoController extends Controller
     }
 
     public function actionPuntuar($id_instancia){
-        //control para ver si se paso la fecha del partido, si es asi lo pone como jugado = 1.
+        //control para ver si se paso la fecha a algun partido, si es asi lo pone como jugado = 1.
         $this->ControlarFechaHoraPartido($id_instancia);
         //calcula los puntos de la cpa(instancia)
         $this->calcularPuntos($id_instancia);
-        return $this->redirect(['/partido/fixture', 'id_instancia' => $id_instancia ]);
+        //return $this->redirect(['/partido/fixture', 'id_instancia' => $id_instancia ]);
+        return $this->redirect(['/partido/segunda-fase', 'id_instancia' => $id_instancia ]);
     }
 
     public static function ControlarFechaHoraPartido($id_instancia){

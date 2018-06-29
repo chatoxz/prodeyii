@@ -345,16 +345,16 @@ a.publicidad:visited, a.publicidad:active, a.publicidad:link, a.publicidad:focus
 }
 
 .wrap_partido_seg_fase{
-    /*background-color: lightgrey;*/
     padding: 10px !important;
     cursor: pointer;
-    margin-bottom: 0px !important;
+    margin-bottom: 40px !important;
+    padding-bottom: 0px !important;
 }
 .equipo_part_seg_fase{
     padding: 5px;
     display: flex;
-    justify-content: space-around;
-
+    justify-content: space-between;
+    padding-bottom: 0px !important;
 }
 
 /*@media (max-width: 768px){
@@ -382,4 +382,14 @@ a.publicidad:visited, a.publicidad:active, a.publicidad:link, a.publicidad:focus
         width: 14.285714285714285714285714285714%;
         *width: 14.285714285714285714285714285714%;
     }
+}
+.pais_flag{
+    padding-bottom: 7px;
+}
+.fecha_hora_part_seg_fase{
+    display: flex;
+    justify-content: space-around;
+    margin: 0px !important;
+    font-size: 12px;
+    position: relative;
 }

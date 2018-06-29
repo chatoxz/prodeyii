@@ -42,16 +42,17 @@ if($partido->jugado == 1){ ?>
     }
 } else $clase = "alert alert-warning";
 ?>
-<div class="modalButton wrap_partido_seg_fase <?= $clase?>"  value="<?= $url ?>" title="Prediccion del partido" size="modal-sm" style="">
+<div class="modalButton wrap_partido_seg_fase <?= $clase?>"  value="<?= $url ?>" title="Instancia <?= $partido->instancia ?>" size="modal-sm" style="">
     <div class="equipo_part_seg_fase  " >
-        <div><?= $partido->local->abreviatura ?></div>
+        <div><img class="pais_flag" src="/themes/light/img/flags/<?= $partido->local_nombre ?>.png" width="20px" alt=""> <?= $partido->local->abreviatura ?></div>
         <div><?= $partido->goles_local; ?></div>
         <div><?php if ($partido->prediccion_goles_local == '') echo 0; else echo $partido->prediccion_goles_local ?></div>
     </div>
     <div class="equipo_part_seg_fase ">
-        <div><?= $partido->visitante->abreviatura ?></div>
+        <div><img class="pais_flag" src="/themes/light/img/flags/<?= $partido->visitante_nombre ?>.png" width="20px" alt=""> <?= $partido->visitante->abreviatura ?></div>
         <div><?= $partido->goles_visitante ?></div>
         <div><?php if ($partido->prediccion_goles_visitante == '') echo 0; else echo $partido->prediccion_goles_visitante ?></div>
     </div>
+    <?php $date = date_format(new DateTime($partido->fecha),"d-m"); ?>
+    <div class="fecha_hora_part_seg_fase" ><span><?= $date ?></span><span> <?= $partido->hora ?></span></div>
 </div>
-<br><br>

@@ -13,9 +13,12 @@ use yii\helpers\Url;
 $der = true;
 ?>
 <br>
-<br>
-<br>
-<br>
+<?php $url = Url::toRoute(['/partido/posiciones', 'id_instancia' => $id_instancia]);?>
+<div class="row" style="display: flex; justify-content: space-around;">
+    <div class="modalButton boton_posiciones col-sm-12 col-md-2" value="<?= $url ?>" title="Posiciones" size="" style=" margin-bottom: 30px">
+        <span class="glyphicon glyphicon-king"> </span> <span class="label_boton_posiciones">Ver Posiciones</span>
+    </div>
+</div>
 <div style="font-family: myFirstFont;opacity: 0.95" class="container-fluid just_white" >
     <br>
     <div class="row seven-cols relleno" style="display: flex;justify-content: space-around;flex-wrap: wrap; font-size: 20px;" >
@@ -60,8 +63,7 @@ $der = true;
         
         <!-- FINALES -->
         <div class="wrap_inst_seg_fase col-md-1 col-sm-6 col-xs-12 ">
-            <div><img src="/themes/light/img/copa_mundo.jpg" width="20"></div>
-            <br>
+            <div style="margin-bottom: 30px"><img src="/themes/light/img/copa_mundo.jpg" width="20"></div>
             <h4 class="visible-sm visible-xs">Final</h4>
             <?= $this->render('/partido/_partidoSegFase',
                 ['partido'=> $final[0], 'alineacion' => $der, 'id_instancia' => $id_instancia]); ?>

@@ -76,7 +76,6 @@ $(document).on("ready",function () {
     $("body").on("beforeSubmit", "form#id_form", function () {
         var form = $(this);
         $(".resultado").removeClass("hidden").html("<div class='loader_tricolor_chico' style='margin: auto;display: block'></div>");
-
         $.ajax({
             url: form.attr("action"),
             type: "post",
@@ -87,19 +86,19 @@ $(document).on("ready",function () {
             if(!response || response.length === 0){
                 $(".resultado").html("<span style='font-size: 16px;margin:auto' class='glyphicon glyphicon-ok' aria-hidden='true'></span> Accion realizada.");
                 setTimeout(function(){
-                    $("#modal").modal("hide");
+                    $("#modal").modal("hide"); //$("#ajaxCrudModal").modal("hide");
                     $(".resultado").html("").addClass("hidden");
                     //Si esta seteado el id del gridview lo recarga con el pjax
                     if ( typeof $("#id_gridview").html() !== "undefined"  )
                         $.pjax.reload({container:"#id_gridview"});
 
                     if(window.location.pathname == "/partido/fixture"){ window.location.reload(); }
-                }, 22000);
+                }, 2000);
             }
             else{
                 $(".resultado").html("<span class='glyphicon glyphicon-cog' aria-hidden='true' style='padding-right: 10px'></span>"+response).css({"width":"90  %","text-align":"center"});
                 setTimeout(function(){
-                    $("#modal").modal("hide");
+                    $("#modal").modal("hide"); //$("#ajaxCrudModal").modal("hide");
                     $(".resultado").html("").addClass("hidden");
                     //Si esta seteado el id del gridview lo recarga con el pjax
                     if ( typeof $("#id_gridview").html() !== "undefined"  ) $.pjax.reload({container:"#id_gridview"});
@@ -114,17 +113,10 @@ $(document).on("ready",function () {
         return false;
     });
 
-
     setInterval(setHora, 60000);
 })
 $(window).on('load', function() {
-    //fondo segunda fase
-    /*if(window.location.pathname == "/partido/segunda-fase"){
-        var imagen = document.getElementById("id_body");
-        imagen.style.backgroundImage = "none";
-        $(".container").eq(0).addClass("container-fluid").removeClass("container");
-        $("body").css('background-image','none');
-    }*/
+
 });
 
 function setHora() {

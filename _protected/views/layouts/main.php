@@ -69,8 +69,20 @@ AppAsset::register($this);
             'label' => 'Torneos',
             'items' => $subMenuItems
         ];
-        //$menuItems[] = ['label' => Yii::t('app', 'Reglas'), 'url' => ['/partido/reglas']];
-        if(sizeof($instancias_user) != 0 )
+        if(sizeof($instancias_user) != 0 ){
+            foreach ($instancias_user as $instancia_user){
+                $instancia = Instancia::find()->filterWhere(['id' => $instancia_user->id_instancia])->one();
+                $torneo = Torneo::find()->filterWhere(['id' => $instancia->id_torneo])->one();
+                $url = Url::toRoute(['/partido/segunda-fase', 'id_instancia' => $instancia->id]);
+                $subMenuItems_SF[] = ['label' => Yii::t('app', $instancia->nombre), 'url' => $url ];
+            }
+            $menuItems[] =[
+                'class' => '',
+                'label' => 'Segunda Fase',
+                'items' => $subMenuItems_SF
+            ];
+
+        }        if(sizeof($instancias_user) != 0 )
             $menuItems[] = '<li><a value="/partido/reglas" class="modalReglas" 
                     style="cursor: pointer;" title="Reglas" size="modal-lg" href="#">Reglas</a></li>';
         $menuItems[] = [
@@ -78,12 +90,13 @@ AppAsset::register($this);
             'url' => ['/site/logout'],
             'linkOptions' => ['data-method' => 'post']
         ];
+
+
     }
 
     // ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN ADMIN
     if (Yii::$app->user->can('admin')){
-        $url = Url::toRoute(['/partido/segunda-fase', 'id_instancia' => 1]);
-        $menuItems[] = ['label' => 'Segunda Fase','url' => $url];
+
         //calcular puntos
         $instancias = Instancia::find()->all();
         foreach ($instancias as $instancia) {
