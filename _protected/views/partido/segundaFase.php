@@ -36,13 +36,13 @@ $der = true;
         <div class="wrap_inst_seg_fase col-md-1 col-sm-6 col-xs-12 ">
             <h4 class="visible-sm visible-xs">Octavos</h4>
             <?= $this->render('/partido/_partidoSegFase',
-                ['partido'=> $oct[0], 'alineacion' => $der, 'id_instancia' => $id_instancia ]); ?>
-            <?= $this->render('/partido/_partidoSegFase',
                 ['partido'=> $oct[1], 'alineacion' => $der, 'id_instancia' => $id_instancia ]); ?>
             <?= $this->render('/partido/_partidoSegFase',
-                ['partido'=> $oct[2], 'alineacion' => $der, 'id_instancia' => $id_instancia ]); ?>
+                ['partido'=> $oct[0], 'alineacion' => $der, 'id_instancia' => $id_instancia ]); ?>
             <?= $this->render('/partido/_partidoSegFase',
-                ['partido'=> $oct[3], 'alineacion' => $der, 'id_instancia' => $id_instancia]); ?>
+                ['partido'=> $oct[4], 'alineacion' => $der, 'id_instancia' => $id_instancia ]); ?>
+            <?= $this->render('/partido/_partidoSegFase',
+                ['partido'=> $oct[5], 'alineacion' => $der, 'id_instancia' => $id_instancia]); ?>
         </div>
         
         <!-- CUARTOS -->
@@ -92,9 +92,9 @@ $der = true;
         <div class="wrap_inst_seg_fase col-md-1 col-sm-6 col-xs-12 ">
             <h4 class="visible-sm visible-xs">Octavos</h4>
             <?= $this->render('/partido/_partidoSegFase',
-                ['partido'=> $oct[4], 'alineacion' => !$der, 'id_instancia' => $id_instancia]); ?>
+                ['partido'=> $oct[2], 'alineacion' => !$der, 'id_instancia' => $id_instancia]); ?>
             <?= $this->render('/partido/_partidoSegFase',
-                ['partido'=> $oct[5], 'alineacion' => !$der, 'id_instancia' => $id_instancia]); ?>
+                ['partido'=> $oct[3], 'alineacion' => !$der, 'id_instancia' => $id_instancia]); ?>
             <?= $this->render('/partido/_partidoSegFase',
                 ['partido'=> $oct[6], 'alineacion' => !$der, 'id_instancia' => $id_instancia]); ?>
             <?= $this->render('/partido/_partidoSegFase',
